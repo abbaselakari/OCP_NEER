@@ -1,0 +1,1019 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}plog_15
+       {txt}log:  {res}/Users/macbookair/Desktop/OCP_NEER/Codes/ifa.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 3 Dec 2020, 14:31:28
+{txt}
+{com}. *--------------------------------Start of do file------------------------------- 
+. 
+. project, doinfo 
+{txt}project master > Project Name: {res}master
+{txt}project master > Project Dir.: {res}/Users/macbookair/Desktop/OCP_NEER
+{txt}project master > Build start : {res}03dec2020, 14:31:17{txt}
+project master > Do-file Name: {res}ifa.do
+{txt}project master > Enclosing do-files:
+project master >     {res}master.do
+{txt}
+{com}. local pdir "`r(pdir)'"
+{txt}
+{com}. local dofile "`(dofile)'"
+{txt}
+{com}. 
+. 
+. cd "`pdir'/data_raw/IFA"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}
+{com}. * Importing IFA dataset
+. local myfiles : dir . files "*.xlsx"
+{txt}
+{com}. foreach file of local myfiles {c -(} 
+{txt}  2{com}.         foreach x in "MAP" "DAP" "TSP" "Phosphate Rock all Grade" "PA" {c -(}
+{txt}  3{com}.                 cd "`pdir'/data_raw/IFA"
+{txt}  4{com}.                 project, original("`pdir'/data_raw/IFA/`file'")
+{txt}  5{com}.                 import excel using "`file'", cellrange(A3) firstrow sheet(`x') clear
+{txt}  6{com}.                 rename Country reporter 
+{txt}  7{com}.                 replace Product = "4" if Product == "Phosphate Rock all Grade"
+{txt}  8{com}.                 replace Product = "1" if Product == "DAP" 
+{txt}  9{com}.                 replace Product = "2" if Product == "MAP" 
+{txt} 10{com}.                 replace Product = "3" if Product == "PA" 
+{txt} 11{com}.                 replace Product = "5" if Product == "TSP"
+{txt} 12{com}.                 drop Period 
+{txt} 13{com}.                 drop  if Year == . 
+{txt} 14{com}.                 //encode Product, gen(product)
+.                 //drop Product
+.         cd "`pdir'/data_derived/IFA"
+{txt} 15{com}.         save "`file'_`x'.dta" , replace 
+{txt} 16{com}.         project, creates("`file'_`x'.dta")
+{txt} 17{com}.         {c )-}
+{txt} 18{com}. {c )-}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx" filesig(419396042:134874){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_MAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_MAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_MAP.dta" filesig(1184972967:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx" filesig(419396042:134874){txt}
+{res}{txt}(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_DAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_DAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_DAP.dta" filesig(2235018208:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx" filesig(419396042:134874){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_TSP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_TSP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_TSP.dta" filesig(2695521901:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx" filesig(419396042:134874){txt}
+{res}{txt}(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_Phosphate Rock all Grade.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_Phosphate Rock all Grade.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_Phosphate Rock all Grade.dta" filesig(3718166747:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx" filesig(419396042:134874){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_PA.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_PA.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_PA.dta" filesig(20838292:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx" filesig(3884361636:135014){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55.xlsx_MAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55.xlsx_MAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx_MAP.dta" filesig(4140639777:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx" filesig(3884361636:135014){txt}
+{res}{txt}(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55.xlsx_DAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55.xlsx_DAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx_DAP.dta" filesig(1803322842:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx" filesig(3884361636:135014){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55.xlsx_TSP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55.xlsx_TSP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx_TSP.dta" filesig(1079603190:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx" filesig(3884361636:135014){txt}
+{res}{txt}(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55.xlsx_Phosphate Rock all Grade.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55.xlsx_Phosphate Rock all Grade.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx_Phosphate Rock all Grade.dta" filesig(155842686:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx" filesig(3884361636:135014){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.55.xlsx_PA.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.55.xlsx_PA.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.55.xlsx_PA.dta" filesig(2202314483:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx" filesig(3623999000:135119){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_MAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_MAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_MAP.dta" filesig(2872822576:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx" filesig(3623999000:135119){txt}
+{res}{txt}(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_DAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_DAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_DAP.dta" filesig(617985459:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx" filesig(3623999000:135119){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_TSP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_TSP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_TSP.dta" filesig(3846577141:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx" filesig(3623999000:135119){txt}
+{res}{txt}(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_Phosphate Rock all Grade.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_Phosphate Rock all Grade.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_Phosphate Rock all Grade.dta" filesig(542453943:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx" filesig(3623999000:135119){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_PA.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_PA.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_PA.dta" filesig(2549963618:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx" filesig(1458062582:135138){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56.xlsx_MAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56.xlsx_MAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx_MAP.dta" filesig(1423188814:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx" filesig(1458062582:135138){txt}
+{res}{txt}(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56.xlsx_DAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56.xlsx_DAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx_DAP.dta" filesig(2496107239:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx" filesig(1458062582:135138){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56.xlsx_TSP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56.xlsx_TSP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx_TSP.dta" filesig(3633637169:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx" filesig(1458062582:135138){txt}
+{res}{txt}(784 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56.xlsx_Phosphate Rock all Grade.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56.xlsx_Phosphate Rock all Grade.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx_Phosphate Rock all Grade.dta" filesig(2170286803:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx" filesig(1458062582:135138){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(784 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.56.xlsx_PA.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.56.xlsx_PA.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.56.xlsx_PA.dta" filesig(3596753577:80155){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx" filesig(2729216795:47551){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(196 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.57.xlsx_MAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.57.xlsx_MAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx_MAP.dta" filesig(1197087516:24295){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx" filesig(2729216795:47551){txt}
+{res}{txt}(0 real changes made)
+(196 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.57.xlsx_DAP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.57.xlsx_DAP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx_DAP.dta" filesig(3926938446:24295){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx" filesig(2729216795:47551){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(196 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.57.xlsx_TSP.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.57.xlsx_TSP.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx_TSP.dta" filesig(1062252381:24295){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx" filesig(2729216795:47551){txt}
+{res}{txt}(196 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.57.xlsx_Phosphate Rock all Grade.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.57.xlsx_Phosphate Rock all Grade.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx_Phosphate Rock all Grade.dta" filesig(429503048:24295){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/IFA
+{txt}project master > do-file uses original: {res}"data_raw/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx" filesig(2729216795:47551){txt}
+{res}{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(196 real changes made)
+(0 real changes made)
+(3 observations deleted)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/IFA
+{txt}(note: file ifadata_supply_query_23-Sep-2020_10.57.xlsx_PA.dta not found)
+file ifadata_supply_query_23-Sep-2020_10.57.xlsx_PA.dta saved
+project master > do-file creates: {res}"data_derived/IFA/ifadata_supply_query_23-Sep-2020_10.57.xlsx_PA.dta" filesig(3136115161:24295){txt}
+
+{com}. 
+. //ssc install fs  
+. clear
+{txt}
+{com}. fs *.dta 
+{res}ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_DAP.dta
+ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_MAP.dta
+ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_PA.dta
+ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_Phosphate Rock all Grade.dta
+ifadata_supply_query_23-Sep-2020_10.55(1).xlsx_TSP.dta
+ifadata_supply_query_23-Sep-2020_10.55.xlsx_DAP.dta
+ifadata_supply_query_23-Sep-2020_10.55.xlsx_MAP.dta
+ifadata_supply_query_23-Sep-2020_10.55.xlsx_PA.dta
+ifadata_supply_query_23-Sep-2020_10.55.xlsx_Phosphate Rock all Grade.dta
+ifadata_supply_query_23-Sep-2020_10.55.xlsx_TSP.dta
+ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_DAP.dta
+ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_MAP.dta
+ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_PA.dta
+ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_Phosphate Rock all Grade.dta
+ifadata_supply_query_23-Sep-2020_10.56(1).xlsx_TSP.dta
+ifadata_supply_query_23-Sep-2020_10.56.xlsx_DAP.dta
+ifadata_supply_query_23-Sep-2020_10.56.xlsx_MAP.dta
+ifadata_supply_query_23-Sep-2020_10.56.xlsx_PA.dta
+ifadata_supply_query_23-Sep-2020_10.56.xlsx_Phosphate Rock all Grade.dta
+ifadata_supply_query_23-Sep-2020_10.56.xlsx_TSP.dta
+ifadata_supply_query_23-Sep-2020_10.57.xlsx_DAP.dta
+ifadata_supply_query_23-Sep-2020_10.57.xlsx_MAP.dta
+ifadata_supply_query_23-Sep-2020_10.57.xlsx_PA.dta
+ifadata_supply_query_23-Sep-2020_10.57.xlsx_Phosphate Rock all Grade.dta
+ifadata_supply_query_23-Sep-2020_10.57.xlsx_TSP.dta
+{txt}
+{com}. append using `r(files)'
+{txt}
+{com}. sort Year Product reporter 
+{txt}
+{com}. quietly by Year Product reporter : gen dup = cond(_N==1,0,_n) 
+{txt}
+{com}. tab dup
+
+        {txt}dup {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     16,660      100.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     16,660      100.00
+{txt}
+{com}. drop dup 
+{txt}
+{com}. encode Product, gen(product)
+{txt}
+{com}. drop Product
+{txt}
+{com}. 
+. cd "`pdir'/data_derived/merge"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/merge
+{txt}
+{com}. save ifa_1.dta, replace 
+{txt}(note: file ifa_1.dta not found)
+file ifa_1.dta saved
+
+{com}. project, creates("ifa_1.dta")
+{txt}project master > do-file creates: {res}"data_derived/merge/ifa_1.dta" filesig(3333597800:1155420){txt}
+
+{com}. * Add iso names for countries 
+. 
+. cd "`pdir'/data_derived/merge"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/merge
+{txt}
+{com}. project, uses("`pdir'/data_derived/merge/trade2.dta")
+{txt}project master > do-file uses: {res}"data_derived/merge/trade2.dta" filesig(1252666222:6679553){txt}
+
+{com}. use trade2, clear 
+{txt}
+{com}. 
+. keep partner partneriso partnercode 
+{txt}
+{com}. sort partner 
+{txt}
+{com}. quietly by partner : gen dup = cond(_N==1,0,_n) 
+{txt}
+{com}. drop if dup > 1 
+{txt}(62,713 observations deleted)
+
+{com}. drop dup 
+{txt}
+{com}. 
+. save iso, replace 
+{txt}(note: file iso.dta not found)
+file iso.dta saved
+
+{com}. project, creates("iso.dta")
+{txt}project master > do-file creates: {res}"data_derived/merge/iso.dta" filesig(1911444758:12365){txt}
+
+{com}. 
+. * Get correct name for countries in ifa 
+. cd "`pdir'/data_derived/merge"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/merge
+{txt}
+{com}. project, uses("`pdir'/data_derived/merge/ifa_1.dta")
+{txt}project master > do-file uses: {res}"data_derived/merge/ifa_1.dta" filesig(3333597800:1155420){txt}
+
+{com}. use ifa_1,clear 
+{txt}
+{com}. 
+. replace reporter = "United Arab Emirates" if reporter == "Abu Dhabi, UAE"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Eswatini" if reporter == "Swaziland"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Bolivia (Plurinational State of)" if reporter == "Bolivia"
+{txt}variable {bf}reporter{sf} was {bf}{res}str23{sf}{txt} now {bf}{res}str32{sf}
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Bosnia Herzegovina" if reporter == "Bosnia and Herzegovina"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Palau" if reporter == "Christmas Island"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "C├┤te d'Ivoire" if reporter == "Cote d'Ivoire"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "United Arab Emirates" if reporter == "Dubai, UAE"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "China, Hong Kong SAR" if reporter == "Hong Kong"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Rep. of Korea" if reporter == "Korea Rep."
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Lao People's Dem. Rep." if reporter == "Laos"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Luxembourg" if reporter == "Luxemburg"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "China, Macao SAR" if reporter == "Macao"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "North Macedonia" if reporter == "Macedonia"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Rep. of Moldova" if reporter == "Moldova Rep."
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Neth. Antilles" if reporter == "Netherlands Antilles"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Russian Federation" if reporter == "Russia"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "United Rep. of Tanzania" if reporter == "Tanzania"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "USA" if reporter == "U.S.A."
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Brunei Darussalam" if reporter == "Brunei"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Dem. People's Rep. of Korea" if reporter == "Korea DPR"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Dem. Rep. of the Congo" if reporter == "Zaire"
+{txt}(85 real changes made)
+
+{com}. replace reporter = "Dem. Rep. of the Congo" if reporter == "Congo"
+{txt}(85 real changes made)
+
+{com}. 
+. rename reporter partner 
+{res}{txt}
+{com}. sort Year product partner
+{txt}
+{com}. quietly by Year product partner: gen dup = cond(_N==1,0,_n) 
+{txt}
+{com}. tab dup
+
+        {txt}dup {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     16,320       97.96       97.96
+{txt}          1 {c |}{res}        170        1.02       98.98
+{txt}          2 {c |}{res}        170        1.02      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     16,660      100.00
+{txt}
+{com}. 
+. * Merge UAE and Congo entries into one 
+. sort Year product partner
+{txt}
+{com}. collapse (sum) Production Imports Exports Homedeliveries ApparentConsumption, by(Year product partner)
+{txt}
+{com}. merge m:1  partner using iso,  gen(_merge_iso)
+{res}{txt}{p 0 7 2}
+(note: variable
+partner was 
+str32, now str38 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,842
+{txt}{col 9}from master{col 30}{res}           1,785{txt}  (_merge_iso==1)
+{col 9}from using{col 30}{res}              57{txt}  (_merge_iso==2)
+
+{col 5}matched{col 30}{res}          14,705{txt}  (_merge_iso==3)
+{col 5}{hline 41}
+
+{com}. tab partner if _merge_iso == 1
+
+                               {txt}Country {c |}      Freq.     Percent        Cum.
+{hline 39}{c +}{hline 35}
+                             Caribbean {c |}{res}         85        4.76        4.76
+{txt}                        C├┤te d'Ivoire {c |}{res}         85        4.76        9.52
+{txt}                                   FSU {c |}{res}         85        4.76       14.29
+{txt}                         French Guiana {c |}{res}         85        4.76       19.05
+{txt}                            Guadeloupe {c |}{res}         85        4.76       23.81
+{txt}                                Kosovo {c |}{res}         85        4.76       28.57
+{txt}                            Martinique {c |}{res}         85        4.76       33.33
+{txt}                                Others {c |}{res}         85        4.76       38.10
+{txt}                           Puerto Rico {c |}{res}         85        4.76       42.86
+{txt}                               Reunion {c |}{res}         85        4.76       47.62
+{txt}                         Taiwan, China {c |}{res}         85        4.76       52.38
+{txt}                       zVarious Africa {c |}{res}         85        4.76       57.14
+{txt}               zVarious Central Europe {c |}{res}         85        4.76       61.90
+{txt}                         zVarious EECA {c |}{res}         85        4.76       66.67
+{txt}                    zVarious East Asia {c |}{res}         85        4.76       71.43
+{txt}                zVarious Latin America {c |}{res}         85        4.76       76.19
+{txt}                zVarious North America {c |}{res}         85        4.76       80.95
+{txt}                      zVarious Oceania {c |}{res}         85        4.76       85.71
+{txt}                   zVarious South Asia {c |}{res}         85        4.76       90.48
+{txt}                    zVarious West Asia {c |}{res}         85        4.76       95.24
+{txt}                  zVarious West Europe {c |}{res}         85        4.76      100.00
+{txt}{hline 39}{c +}{hline 35}
+                                 Total {c |}{res}      1,785      100.00
+{txt}
+{com}. tab partner if _merge_iso == 2
+
+                               {txt}Country {c |}      Freq.     Percent        Cum.
+{hline 39}{c +}{hline 35}
+                        American Samoa {c |}{res}          1        1.75        1.75
+{txt}                               Andorra {c |}{res}          1        1.75        3.51
+{txt}                              Anguilla {c |}{res}          1        1.75        5.26
+{txt}                   Antigua and Barbuda {c |}{res}          1        1.75        7.02
+{txt}                              Barbados {c |}{res}          1        1.75        8.77
+{txt}                               Bonaire {c |}{res}          1        1.75       10.53
+{txt}                       Br. Virgin Isds {c |}{res}          1        1.75       12.28
+{txt}                           Cayman Isds {c |}{res}          1        1.75       14.04
+{txt}                  Central African Rep. {c |}{res}          1        1.75       15.79
+{txt}                        Christmas Isds {c |}{res}          1        1.75       17.54
+{txt}                            Cocos Isds {c |}{res}          1        1.75       19.30
+{txt}                               Comoros {c |}{res}          1        1.75       21.05
+{txt}                                 Congo {c |}{res}          1        1.75       22.81
+{txt}                             Cook Isds {c |}{res}          1        1.75       24.56
+{txt}                               Cura̤ao {c |}{res}          1        1.75       26.32
+{txt}                         C̫te d'Ivoire {c |}{res}          1        1.75       28.07
+{txt}                     Equatorial Guinea {c |}{res}          1        1.75       29.82
+{txt}                         FS Micronesia {c |}{res}          1        1.75       31.58
+{txt}                           Faeroe Isds {c |}{res}          1        1.75       33.33
+{txt}              Falkland Isds (Malvinas) {c |}{res}          1        1.75       35.09
+{txt}                             Fmr Sudan {c |}{res}          1        1.75       36.84
+{txt}             Fr. South Antarctic Terr. {c |}{res}          1        1.75       38.60
+{txt}                             Gibraltar {c |}{res}          1        1.75       40.35
+{txt}                             Greenland {c |}{res}          1        1.75       42.11
+{txt}                               Grenada {c |}{res}          1        1.75       43.86
+{txt}                                  Guam {c |}{res}          1        1.75       45.61
+{txt}                         Guinea-Bissau {c |}{res}          1        1.75       47.37
+{txt}                              Kiribati {c |}{res}          1        1.75       49.12
+{txt}                         Marshall Isds {c |}{res}          1        1.75       50.88
+{txt}                               Mayotte {c |}{res}          1        1.75       52.63
+{txt}                            Montserrat {c |}{res}          1        1.75       54.39
+{txt}                       N. Mariana Isds {c |}{res}          1        1.75       56.14
+{txt}                                  Niue {c |}{res}          1        1.75       57.89
+{txt}                          Norfolk Isds {c |}{res}          1        1.75       59.65
+{txt}                      Saint Barth̩lemy {c |}{res}          1        1.75       61.40
+{txt}                          Saint Helena {c |}{res}          1        1.75       63.16
+{txt}                 Saint Kitts and Nevis {c |}{res}          1        1.75       64.91
+{txt}                           Saint Lucia {c |}{res}          1        1.75       66.67
+{txt}                         Saint Maarten {c |}{res}          1        1.75       68.42
+{txt}             Saint Pierre and Miquelon {c |}{res}          1        1.75       70.18
+{txt}      Saint Vincent and the Grenadines {c |}{res}          1        1.75       71.93
+{txt}                                 Samoa {c |}{res}          1        1.75       73.68
+{txt}                            San Marino {c |}{res}          1        1.75       75.44
+{txt}                 Sao Tome and Principe {c |}{res}          1        1.75       77.19
+{txt}                 Serbia and Montenegro {c |}{res}          1        1.75       78.95
+{txt}                          Solomon Isds {c |}{res}          1        1.75       80.70
+{txt}                           South Sudan {c |}{res}          1        1.75       82.46
+{txt}                    State of Palestine {c |}{res}          1        1.75       84.21
+{txt}                           Timor-Leste {c |}{res}          1        1.75       85.96
+{txt}                               Tokelau {c |}{res}          1        1.75       87.72
+{txt}                                 Tonga {c |}{res}          1        1.75       89.47
+{txt}                 Turks and Caicos Isds {c |}{res}          1        1.75       91.23
+{txt}                                Tuvalu {c |}{res}          1        1.75       92.98
+{txt}  United States Minor Outlying Islands {c |}{res}          1        1.75       94.74
+{txt}                               Vanuatu {c |}{res}          1        1.75       96.49
+{txt}                Wallis and Futuna Isds {c |}{res}          1        1.75       98.25
+{txt}                                 World {c |}{res}          1        1.75      100.00
+{txt}{hline 39}{c +}{hline 35}
+                                 Total {c |}{res}         57      100.00
+{txt}
+{com}. /* Merging IFA with Comtrade : one should note that this is an important step, where matching countries 
+> production data with trade flows data,is essential to compute the neer, thus, more matchiing means higher 
+> probability of having precise indices, in this respect, names of IFA countries should be modified so as to 
+> they match the ones in Comtrade before merging both datasets
+>     not matched                         2,826
+>         from master                     2,805  (_merge_iso==1)
+>         from using                         21  (_merge_iso==2)
+>     matched                            13,685  (_merge_iso==3)
+> */
+.  
+. * Get iso codes for countries not present in Comtrade
+. replace partneriso  = "AFG"  if partner == "Afghanistan"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 4 if partner == "Afghanistan"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "AGO" if partner == "Angola"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 24 if partner == "Angola"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "BMU" if partner == "Bermuda"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 60 if partner == "Bermuda"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "TCD" if partner == "Chad"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 148 if partner == "Chad"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "COD" if partner == "Congo"
+{txt}(1 real change made)
+
+{com}. replace partnercode  = 180 if partner == "Congo"
+{txt}(1 real change made)
+
+{com}. replace partneriso  = "DJI" if partner == "Djibouti"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 262 if partner == "Djibouti"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "DMA" if partner == "Dominica"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 212 if partner == "Dominica"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "ERI" if partner == "Eritrea"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 232 if partner == "Eritrea"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "GUF" if partner == "French Guiana"
+{txt}(85 real changes made)
+
+{com}. replace partnercode  = 254 if partner == "French Guiana"
+{txt}(85 real changes made)
+
+{com}. replace partneriso  = "GLP" if partner == "Guadeloupe"
+{txt}(85 real changes made)
+
+{com}. replace partnercode  = 312 if partner == "Guadeloupe"
+{txt}(85 real changes made)
+
+{com}. replace partneriso  = "GIN" if partner == "Guinea"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 324 if partner == "Guinea"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "HTI" if partner == "Haiti"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 332 if partner == "Haiti"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "IRQ" if partner == "Iraq"
+{txt}(0 real changes made)
+
+{com}. replace partnercode = 368 if partner == "Iraq"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "PRK" if partner == "Korea DPR"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 408 if partner == "Korea DPR"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "LBR" if partner == "Liberia"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 430 if partner == "Liberia"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "LBY" if partner == "Libya"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 434 if partner == "Libya"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "MDV" if partner == "Maldives"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 462 if partner == "Maldives"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "MTQ" if partner == "Martinique"
+{txt}(85 real changes made)
+
+{com}. replace partnercode  = 474 if partner == "Martinique"
+{txt}(85 real changes made)
+
+{com}. replace partneriso  = "MMR" if partner == "Myanmar"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 104 if partner == "Myanmar"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "NRU" if partner == "Nauru"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 520 if partner == "Nauru"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "PRI" if partner == "Puerto Rico"
+{txt}(85 real changes made)
+
+{com}. replace partnercode  = 630 if partner == "Puerto Rico"
+{txt}(85 real changes made)
+
+{com}. replace partneriso  = "REU" if partner == "Reunion"
+{txt}(85 real changes made)
+
+{com}. replace partnercode  = 638 if partner == "Reunion"
+{txt}(85 real changes made)
+
+{com}. replace partneriso  = "SYC" if partner == "Seychelles"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 690 if partner == "Seychelles"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "SOM" if partner == "Somalia"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 706 if partner == "Somalia"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "TWN" if partner == "Taiwan, China"
+{txt}(85 real changes made)
+
+{com}. replace partnercode  = 158 if partner == "Taiwan, China"
+{txt}(85 real changes made)
+
+{com}. replace partneriso  = "TJK" if partner == "Tajikistan"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 762 if partner == "Tajikistan"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "TKM" if partner == "Turkmenistan"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  =  795 if partner == "Turkmenistan"
+{txt}(0 real changes made)
+
+{com}. replace partneriso  = "UZB" if partner == "Uzbekistan"
+{txt}(0 real changes made)
+
+{com}. replace partnercode  = 860 if partner == "Uzbekistan"
+{txt}(0 real changes made)
+
+{com}. 
+. 
+. * keep only countries that are in both datasets
+. drop if _merge_iso == 1 | _merge_iso == 2 // 1756 obs
+{txt}(1,842 observations deleted)
+
+{com}. drop _merge_iso
+{txt}
+{com}. rename Year year
+{res}{txt}
+{com}. 
+. cd "`pdir'/data_derived/merge"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/merge
+{txt}
+{com}. save IFA, replace 
+{txt}(note: file IFA.dta not found)
+file IFA.dta saved
+
+{com}. project, creates("IFA.dta") preserve
+{txt}project master > do-file creates: {res}"data_derived/merge/IFA.dta" filesig(4151783626:1315905){txt}
+
+{com}. 
+. * Aggregation level 1 : Fertilizers 
+. list Production product if partner == "Belgium" & year == 2017
+{txt}
+       {c TLC}{hline 10}{c -}{hline 9}{c TRC}
+       {c |} {res}Produc~n   product {txt}{c |}
+       {c LT}{hline 10}{c -}{hline 9}{c RT}
+ 1191. {c |} {res}   301.9         3 {txt}{c |}
+ 1193. {c |} {res}    22.4         1 {txt}{c |}
+ 1229. {c |} {res}     3.7         5 {txt}{c |}
+ 1259. {c |} {res}    50.3         2 {txt}{c |}
+ 1275. {c |} {res}       0         4 {txt}{c |}
+       {c BLC}{hline 10}{c -}{hline 9}{c BRC}
+
+{com}. * Multiply quantities by price 0f 2011
+. replace Production = Production*184 if product == 4
+{txt}(527 real changes made)
+
+{com}. replace Exports = Exports*184 if product ==4
+{txt}(317 real changes made)
+
+{com}. replace Imports = Imports*184 if product ==4
+{txt}(987 real changes made)
+
+{com}. replace ApparentConsumption = ApparentConsumption*184 if product ==4
+{txt}(1,266 real changes made)
+
+{com}. replace Homedeliveries = Homedeliveries*184 if product ==4
+{txt}(470 real changes made)
+
+{com}. 
+. replace Production = Production*480 if product == 1
+{txt}(399 real changes made)
+
+{com}. replace Exports = Exports*480 if product ==1
+{txt}(296 real changes made)
+
+{com}. replace Imports = Imports*480 if product ==1
+{txt}(1,459 real changes made)
+
+{com}. replace ApparentConsumption = ApparentConsumption*480 if product ==1
+{txt}(1,543 real changes made)
+
+{com}. replace Homedeliveries = Homedeliveries*480 if product ==1
+{txt}(392 real changes made)
+
+{com}. 
+. replace Production = Production*600 if product == 2
+{txt}(330 real changes made)
+
+{com}. replace Exports = Exports*600 if product ==2
+{txt}(243 real changes made)
+
+{com}. replace Imports = Imports*600 if product ==2
+{txt}(1,376 real changes made)
+
+{com}. replace ApparentConsumption = ApparentConsumption*600 if product ==2
+{txt}(1,417 real changes made)
+
+{com}. replace Homedeliveries = Homedeliveries*600 if product ==2
+{txt}(307 real changes made)
+
+{com}. 
+. replace Production = Production*465 if product == 3
+{txt}(624 real changes made)
+
+{com}. replace Exports = Exports*465 if product ==3
+{txt}(255 real changes made)
+
+{com}. replace Imports = Imports*465 if product ==3
+{txt}(1,392 real changes made)
+
+{com}. replace ApparentConsumption = ApparentConsumption*465 if product ==3
+{txt}(1,509 real changes made)
+
+{com}. replace Homedeliveries = Homedeliveries*465 if product ==3
+{txt}(619 real changes made)
+
+{com}. 
+. replace Production = Production*460 if product == 5
+{txt}(290 real changes made)
+
+{com}. replace Exports = Exports*460 if product ==5
+{txt}(175 real changes made)
+
+{com}. replace Imports = Imports*460 if product ==5
+{txt}(942 real changes made)
+
+{com}. replace ApparentConsumption = ApparentConsumption*460 if product ==5
+{txt}(1,082 real changes made)
+
+{com}. replace Homedeliveries = Homedeliveries*460 if product ==5
+{txt}(286 real changes made)
+
+{com}. 
+. 
+. replace product = 1 if product == 5 | product == 2
+{txt}(5,882 real changes made)
+
+{com}. sort partner year product  
+{txt}
+{com}. collapse (sum) Production Exports Imports Homedeliveries ApparentConsumption, by(year product partner partnercode partneriso)
+{txt}
+{com}. list Production if partner == "Belgium" &  year == 2017
+{txt}
+      {c TLC}{hline 10}{c TRC}
+      {c |} {res}Produc~n {txt}{c |}
+      {c LT}{hline 10}{c RT}
+7800. {c |} {res}   42634 {txt}{c |}
+7973. {c |} {res}140383.5 {txt}{c |}
+8146. {c |} {res}       0 {txt}{c |}
+      {c BLC}{hline 10}{c BRC}
+
+{com}. 
+. 
+. save IFA_agg1, replace 
+{txt}(note: file IFA_agg1.dta not found)
+file IFA_agg1.dta saved
+
+{com}. project, creates("IFA_agg1.dta") preserve
+{txt}project master > do-file creates: {res}"data_derived/merge/IFA_agg1.dta" filesig(609577950:792407){txt}
+
+{com}. 
+. *** Aggregation 2 : OCP products
+. list Production product if partner == "Belgium"  & year == 2017
+{txt}
+      {c TLC}{hline 10}{c -}{hline 9}{c TRC}
+      {c |} {res}Produc~n   product {txt}{c |}
+      {c LT}{hline 10}{c -}{hline 9}{c RT}
+7800. {c |} {res}   42634         1 {txt}{c |}
+7973. {c |} {res}140383.5         3 {txt}{c |}
+8146. {c |} {res}       0         4 {txt}{c |}
+      {c BLC}{hline 10}{c -}{hline 9}{c BRC}
+
+{com}. replace product = 1 if product == 3 | product == 4
+{txt}(5,882 real changes made)
+
+{com}. sort partner year product  
+{txt}
+{com}. collapse (sum) Production Exports Imports Homedeliveries ApparentConsumption, by(year product partner partnercode partneriso)
+{txt}
+{com}. list Production if partner == "Belgium"  & year == 2017
+{txt}
+      {c TLC}{hline 10}{c TRC}
+      {c |} {res}Produc~n {txt}{c |}
+      {c LT}{hline 10}{c RT}
+2610. {c |} {res}183017.5 {txt}{c |}
+      {c BLC}{hline 10}{c BRC}
+
+{com}. 
+. save IFA_agg2, replace 
+{txt}(note: file IFA_agg2.dta not found)
+file IFA_agg2.dta saved
+
+{com}. project, creates("IFA_agg2.dta")
+{txt}project master > do-file creates: {res}"data_derived/merge/IFA_agg2.dta" filesig(3311375232:268909){txt}
+
+{com}. 
+. *--------------------------------End of do file------------------------------- 
+. 
+{txt}end of do-file
+      name:  {res}plog_15
+       {txt}log:  {res}/Users/macbookair/Desktop/OCP_NEER/Codes/ifa.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 3 Dec 2020, 14:31:36
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

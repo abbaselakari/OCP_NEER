@@ -1,0 +1,284 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}plog_82
+       {txt}log:  {res}/Users/macbookair/Desktop/OCP_NEER/Codes/output.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 9 Dec 2020, 09:49:53
+{txt}
+{com}. *--------------------------------Start of do file------------------------------- 
+. 
+. project, doinfo 
+{txt}project master > Project Name: {res}master
+{txt}project master > Project Dir.: {res}/Users/macbookair/Desktop/OCP_NEER
+{txt}project master > Build start : {res}09dec2020, 09:49:50{txt}
+project master > Do-file Name: {res}output.do
+{txt}project master > Enclosing do-files:
+project master >     {res}master.do
+{txt}
+{com}. local pdir "`r(pdir)'"
+{txt}
+{com}. local dofile "`(dofile)'"
+{txt}
+{com}. 
+. 
+. * Analysis 
+. cd "`pdir'/data_derived/neer/year"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/neer/year
+{txt}
+{com}. project, uses("neer_year_weights.dta")
+{txt}project master > do-file uses: {res}"data_derived/neer/year/neer_year_weights.dta" filesig(207504505:510639){txt}
+
+{com}. use  neer_year_weights.dta, clear
+{txt}
+{com}. tw (line neer year if product == 1  ) ///
+>  (line neer year  if product == 2  )  /// 
+>  (line neer year if product == 3 ) ///
+>  (line neer year if product == 4 ) ///
+>  (line neer year if product == 5 ), ///
+>  title("neer for all products") ///
+> legend(order(1 "DAP" 2 "MAP" 3 "PA" 4 "PR" 5 "TSP"))
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "neer_yearly.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/neer_yearly.pdf written in PDF format)
+
+{com}. keep partner year product double_weights simple_weights neer
+{txt}
+{com}. export excel using "neer_yearly.xlsx", firstrow(variables) datestring("%tm") sheet("normal") replace 
+{res}{txt}file neer_yearly.xlsx saved
+
+{com}. 
+. cd "`pdir'/data_derived/neer/year"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/neer/year
+{txt}
+{com}. project, uses("neer_year_weights_agg1.dta")
+{txt}project master > do-file uses: {res}"data_derived/neer/year/neer_year_weights_agg1.dta" filesig(2015839407:351389){txt}
+
+{com}. use  neer_year_weights_agg1.dta, clear
+{txt}
+{com}. tw (line neer year if product == 1  ) ///
+>  (line neer year if product == 3 ) ///
+>  (line neer year if product == 4 ), ///
+> legend(order(1 "fertilizers"  2 "PA" 3 "PR" )) /// 
+> title("neer for fertilizers aggregated, PR and PA")
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "neer_yearly_fertilizers.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/neer_yearly_fertilizers.pdf written in PDF format)
+
+{com}. keep partner year product double_weights simple_weights neer
+{txt}
+{com}. export excel using "neer_yearly.xlsx", firstrow(variables) datestring("%tm") sheet("fertilizers") replace 
+{res}{txt}file neer_yearly.xlsx saved
+
+{com}. 
+. cd "`pdir'/data_derived/neer/year"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/neer/year
+{txt}
+{com}. project, uses("neer_year_weights_agg2.dta")
+{txt}project master > do-file uses: {res}"data_derived/neer/year/neer_year_weights_agg2.dta" filesig(2560317915:159029){txt}
+
+{com}. use  neer_year_weights_agg2.dta, clear
+{txt}
+{com}. tw (line neer year if product == 1  ) ///
+>  (line neer year  if product == 2  )  /// 
+>  (line neer year if product == 3 ) ///
+>  (line neer year if product == 4 ) ///
+>  (line neer year if product == 5 ), ///
+> legend(order(1 "OCP")) ///
+> title("Neer for the OCP")
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "neer_yearly_ocp.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/neer_yearly_ocp.pdf written in PDF format)
+
+{com}. keep partner year product double_weights simple_weights neer
+{txt}
+{com}. export excel using "neer_yearly.xlsx", firstrow(variables) datestring("%tm") sheet("all") replace 
+{res}{txt}file neer_yearly.xlsx saved
+
+{com}. 
+. *--------------------------------NEER MONTH------------------------------- 
+. 
+. cd "`pdir'/data_derived/neer/month"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/neer/month
+{txt}
+{com}. project, uses("neer_month_weights.dta")
+{txt}project master > do-file uses: {res}"data_derived/neer/month/neer_month_weights.dta" filesig(2895962743:6514095){txt}
+
+{com}. use  neer_month_weights.dta, clear
+{txt}
+{com}. tw (line neer month if product == 1  ) ///
+>  (line neer month  if product == 2  )  /// 
+>  (line neer month if product == 3 ) ///
+>  (line neer month if product == 4 ) ///
+>  (line neer month if product == 5 ), ///
+> legend(order(1 "DAP" 2 "MAP" 3 "PA" 4 "PR" 5 "TSP")) ///
+> title("neer for all products") 
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "neer_monthly.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/neer_monthly.pdf written in PDF format)
+
+{com}. keep partner month product double_weights simple_weights neer
+{txt}
+{com}. export excel using "neer_monthly.xlsx", firstrow(variables) datestring("%tm")  sheet("normal") replace 
+{res}{txt}file neer_monthly.xlsx saved
+
+{com}. 
+. cd "`pdir'/data_derived/neer/month"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/neer/month
+{txt}
+{com}. project, uses("neer_month_weights_agg1.dta")
+{txt}project master > do-file uses: {res}"data_derived/neer/month/neer_month_weights_agg1.dta" filesig(2370503907:4451683){txt}
+
+{com}. use  neer_month_weights_agg1.dta, clear
+{txt}
+{com}. tw (line neer month if product == 1  ) ///
+>  (line neer month if product == 3 ) ///
+>  (line neer month if product == 4 ), ///
+> legend(order(1 "fertilizers"  2 "PA" 3 "PR" )) ///
+> title("neer fertilizers, PR, PA") 
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "neer_monthly.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/neer_monthly.pdf written in PDF format)
+
+{com}. keep partner month product double_weights simple_weights neer
+{txt}
+{com}. export excel using "neer_monthly_fertilizers.xlsx", firstrow(variables) datestring("%tm") sheet("fertilizers") replace 
+{res}{txt}file neer_monthly_fertilizers.xlsx saved
+
+{com}. 
+. cd "`pdir'/data_derived/neer/month"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/neer/month
+{txt}
+{com}. project, uses("neer_month_weights_agg2.dta")
+{txt}project master > do-file uses: {res}"data_derived/neer/month/neer_month_weights_agg2.dta" filesig(2856109680:1961163){txt}
+
+{com}. use  neer_month_weights_agg2.dta, clear
+{txt}
+{com}. tw (line neer month if product == 1  ) ///
+>  (line neer month  if product == 2  )  /// 
+>  (line neer month if product == 3 ) ///
+>  (line neer month if product == 4 ) ///
+>  (line neer month if product == 5 ), ///
+> legend(order(1 "OCP")) /// 
+> title("Neer for the OCP")
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "neer_monthly_ocp.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/neer_monthly_ocp.pdf written in PDF format)
+
+{com}. keep partner month product double_weights simple_weights neer
+{txt}
+{com}. export excel using "neer_monthly.xlsx", firstrow(variables) datestring("%tm")  sheet("all") replace 
+{res}{txt}file neer_monthly.xlsx saved
+
+{com}. 
+. 
+. 
+. *--------------------------------REER MONTH------------------------------- 
+. 
+. cd "`pdir'/data_derived/reer/month"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/reer/month
+{txt}
+{com}. project, uses("reer_month_neer_month_weights.dta")
+{txt}project master > do-file uses: {res}"data_derived/reer/month/reer_month_neer_month_weights.dta" filesig(1297504844:5661203){txt}
+
+{com}. use  reer_month_neer_month_weights.dta, clear
+{txt}
+{com}. tw (line reer month if product == 1  ) ///
+>  (line reer month  if product == 2  )  /// 
+>  (line reer month if product == 3 ) ///
+>  (line reer month if product == 4 ) ///
+>  (line reer month if product == 5 ), ///
+> legend(order(1 "DAP" 2 "MAP" 3 "PA" 4 "PR" 5 "TSP")) ///
+> title("reer for all products") 
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "reer_monthly.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/reer_monthly.pdf written in PDF format)
+
+{com}. keep partner month product double_weights simple_weights neer reer
+{txt}
+{com}. export excel using "reer_monthly.xlsx", firstrow(variables) datestring("%tm") sheet("normal") replace
+{res}{txt}file reer_monthly.xlsx saved
+
+{com}. 
+. cd "`pdir'/data_derived/reer/month"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/reer/month
+{txt}
+{com}. project, uses("reer_month_neer_month_weights_agg1.dta")
+{txt}project master > do-file uses: {res}"data_derived/reer/month/reer_month_neer_month_weights_agg1.dta" filesig(2733698692:3805331){txt}
+
+{com}. use  reer_month_neer_month_weights_agg1.dta, clear
+{txt}
+{com}. tw (line reer month if product == 1  ) ///
+>  (line reer month if product == 3 ) ///
+>  (line reer month if product == 4 ), ///
+> legend(order(1 "fertilizers"  2 "PA" 3 "PR" )) ///
+> title("neer fertilizers, PR, PA") 
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "reer_monthly_fertilizers.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/reer_monthly_fertilizers.pdf written in PDF format)
+
+{com}. keep partner month product double_weights simple_weights neer reer 
+{txt}
+{com}. export excel using "reer_monthly.xlsx", firstrow(variables) datestring("%tm") sheet("fertilizers") replace
+{res}{txt}file reer_monthly.xlsx saved
+
+{com}. 
+. cd "`pdir'/data_derived/reer/month"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/reer/month
+{txt}
+{com}. project, uses("reer_month_neer_month_weights_agg2.dta")
+{txt}project master > do-file uses: {res}"data_derived/reer/month/reer_month_neer_month_weights_agg2.dta" filesig(4111143491:1638203){txt}
+
+{com}. use  reer_month_neer_month_weights_agg2.dta, clear
+{txt}
+{com}. tw (line reer month),  ///
+> legend(order(1 "OCP")) /// 
+> title("reer for the OCP")
+{res}{txt}
+{com}. cd "`pdir'/results"
+{res}/Users/macbookair/Desktop/OCP_NEER/results
+{txt}
+{com}. graph export "reer_monthly_ocp.pdf", replace 
+{txt}(file /Users/macbookair/Desktop/OCP_NEER/results/reer_monthly_ocp.pdf written in PDF format)
+
+{com}. keep partner month product double_weights simple_weights neer reer
+{txt}
+{com}. export excel using "reer_monthly.xlsx", firstrow(variables) datestring("%tm")  sheet("all") replace
+{res}{txt}file reer_monthly.xlsx saved
+
+{com}. 
+. 
+. *--------------------------------End of do file---------------------------------
+. 
+. 
+{txt}end of do-file
+      name:  {res}plog_82
+       {txt}log:  {res}/Users/macbookair/Desktop/OCP_NEER/Codes/output.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 9 Dec 2020, 09:50:36
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

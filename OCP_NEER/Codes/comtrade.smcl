@@ -1,0 +1,262 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}plog_2
+       {txt}log:  {res}/Users/macbookair/Desktop/OCP_NEER/Codes/comtrade.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 3 Dec 2020, 14:31:24
+{txt}
+{com}. *--------------------------------Start of do file------------------------------- 
+. 
+. *Capture the project current directory and name of the do file 
+. project, doinfo 
+{txt}project master > Project Name: {res}master
+{txt}project master > Project Dir.: {res}/Users/macbookair/Desktop/OCP_NEER
+{txt}project master > Build start : {res}03dec2020, 14:31:17{txt}
+project master > Do-file Name: {res}comtrade.do
+{txt}project master > Enclosing do-files:
+project master >     {res}master.do
+{txt}
+{com}. local pdir "`r(pdir)'"
+{txt}
+{com}. local dofile "`(dofile)'"
+{txt}
+{com}. 
+. cd "`pdir'/data_raw/Comtrade"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/Comtrade
+{txt}
+{com}. * COMTRADE cleansing 
+. local myfiles : dir . files "*.csv"
+{txt}
+{com}. foreach file of local myfiles {c -(} 
+{txt}  2{com}. cd "`pdir'/data_raw/Comtrade"
+{txt}  3{com}. project, original ("`pdir'/data_raw/Comtrade/`file'")
+{txt}  4{com}. import delimited "`file'",  clear 
+{txt}  5{com}.         sort year reporter partner
+{txt}  6{com}.         rename tradevalueus trade 
+{txt}  7{com}.         rename netweightkg quantity
+{txt}  8{com}.         rename commoditycode product
+{txt}  9{com}.         keep reporter reportercode reporteriso partner partnercode partneriso year trade quantity product
+{txt} 10{com}.         cd "`pdir'/data_derived/Comtrade"
+{txt} 11{com}.         save "`file'.dta" , replace 
+{txt} 12{com}.         project, creates ("`file'.dta")
+{txt} 13{com}. {c )-}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/Comtrade
+{txt}project master > do-file uses original: {res}"data_raw/Comtrade/comtrade_2002_2006.csv" filesig(1513452909:2623617){txt}
+{res}{text}(35 vars, 13947 obs)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/Comtrade
+{txt}(note: file comtrade_2002_2006.csv.dta not found)
+file comtrade_2002_2006.csv.dta saved
+project master > do-file creates: {res}"data_derived/Comtrade/comtrade_2002_2006.csv.dta" filesig(2917271615:1373761){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/Comtrade
+{txt}project master > do-file uses original: {res}"data_raw/Comtrade/comtrade_2007_2011.csv" filesig(3979912803:3654783){txt}
+{res}{text}(35 vars, 17883 obs)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/Comtrade
+{txt}(note: file comtrade_2007_2011.csv.dta not found)
+file comtrade_2007_2011.csv.dta saved
+project master > do-file creates: {res}"data_derived/Comtrade/comtrade_2007_2011.csv.dta" filesig(2402143842:1795255){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/Comtrade
+{txt}project master > do-file uses original: {res}"data_raw/Comtrade/comtrade_2012_2016.csv" filesig(1694253099:4213704){txt}
+{res}{text}(35 vars, 20269 obs)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/Comtrade
+{txt}(note: file comtrade_2012_2016.csv.dta not found)
+file comtrade_2012_2016.csv.dta saved
+project master > do-file creates: {res}"data_derived/Comtrade/comtrade_2012_2016.csv.dta" filesig(3442547835:1952779){txt}
+{res}/Users/macbookair/Desktop/OCP_NEER/data_raw/Comtrade
+{txt}project master > do-file uses original: {res}"data_raw/Comtrade/comtrade_2017_2019.csv" filesig(1064746058:2589541){txt}
+{res}{text}(35 vars, 12458 obs)
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/Comtrade
+{txt}(note: file comtrade_2017_2019.csv.dta not found)
+file comtrade_2017_2019.csv.dta saved
+project master > do-file creates: {res}"data_derived/Comtrade/comtrade_2017_2019.csv.dta" filesig(1375632168:1252755){txt}
+
+{com}. * Append imported comtrade files into one dataset
+. clear
+{txt}
+{com}. fs *.dta 
+{res}{col 1}comtrade_2002_2006.csv.dta{col 29}comtrade_2007_2011.csv.dta{col 57}comtrade_2012_2016.csv.dta{col 85}comtrade_2017_2019.csv.dta
+{txt}
+{com}. append using `r(files)'
+{txt}{p 0 7 2}
+(note: variable
+trade was 
+long, now double to accommodate using data's values)
+{p_end}
+
+{com}. sort partner reporter year product 
+{txt}
+{com}. quietly by partner reporter year product : gen dup = cond(_N ==1,0,_n)
+{txt}
+{com}. tab dup 
+
+        {txt}dup {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     64,557      100.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,557      100.00
+{txt}
+{com}. drop dup 
+{txt}
+{com}. replace partner = "C├┤te d'Ivoire" if partner == "CÃ´te d'Ivoire"
+{txt}(0 real changes made)
+
+{com}. * Generate categorical variable for products and years. 
+.         replace product = 1 if product == 310530 // DAP
+{txt}(10,518 real changes made)
+
+{com}.         replace product = 2 if product == 310540 // MAP
+{txt}(10,633 real changes made)
+
+{com}.         replace product = 3 if product == 280920 // PA
+{txt}(23,073 real changes made)
+
+{com}.         replace product = 4 if product == 2510 // PR
+{txt}(8,909 real changes made)
+
+{com}.         replace product = 5 if product == 3103 // TSP
+{txt}(11,424 real changes made)
+
+{com}.         drop if product == . 
+{txt}(0 observations deleted)
+
+{com}.         sort year product 
+{txt}
+{com}.         drop if partneriso == ""
+{txt}(986 observations deleted)
+
+{com}.         drop if reporteriso == ""
+{txt}(628 observations deleted)
+
+{com}. * Defining the partners of Morocco (OCP)
+. * Generate a dummy variable for defining the partners j of mororcco (Both exporters and importers)
+. 
+.         gen partner_j = 0 
+{txt}
+{com}.         * Morocco is exporter 
+.         replace partner_j =2 if reporter == "Morocco" & partnercode != 0 
+{txt}(2,073 real changes made)
+
+{com}.         * Morocco is importer 
+.         replace partner_j =1 if partner == "Morocco" & partnercode !=  0 
+{txt}(310 real changes made)
+
+{com}. 
+. cd "`pdir'/data_derived/merge"
+{res}/Users/macbookair/Desktop/OCP_NEER/data_derived/merge
+{txt}
+{com}. 
+. save trade2, replace 
+{txt}(note: file trade2.dta not found)
+file trade2.dta saved
+
+{com}. project, creates("trade2.dta") preserve
+{txt}project master > do-file creates: {res}"data_derived/merge/trade2.dta" filesig(1252666222:6679553){txt}
+
+{com}. 
+. *** Aggregation 1 : fertilizers = Dap + Map + tsp (1,2,5)
+. 
+. list trade product if partner == "Belgium" & reporter == "Morocco" & year == 2017
+{txt}
+       {c TLC}{hline 10}{c -}{hline 9}{c TRC}
+       {c |} {res}   trade   product {txt}{c |}
+       {c LT}{hline 10}{c -}{hline 9}{c RT}
+51354. {c |} {res}11714316         1 {txt}{c |}
+51600. {c |} {res} 3138862         2 {txt}{c |}
+52911. {c |} {res}77686846         3 {txt}{c |}
+53955. {c |} {res} 8801054         4 {txt}{c |}
+54546. {c |} {res} 6476541         5 {txt}{c |}
+       {c BLC}{hline 10}{c -}{hline 9}{c BRC}
+
+{com}. replace product = 1 if product == 5 | product == 2
+{txt}(21,546 real changes made)
+
+{com}. sort partner year product reporter
+{txt}
+{com}. collapse (sum) quantity trade, by(year product partner partnercode partneriso reportercode reporteriso reporter)
+{txt}
+{com}. list trade if partner == "Belgium" & reporter == "Morocco" & year == 2017
+{txt}
+       {c TLC}{hline 10}{c TRC}
+       {c |} {res}   trade {txt}{c |}
+       {c LT}{hline 10}{c RT}
+42164. {c |} {res}21329719 {txt}{c |}
+43580. {c |} {res}77686846 {txt}{c |}
+44979. {c |} {res} 8801054 {txt}{c |}
+       {c BLC}{hline 10}{c BRC}
+
+{com}.         gen partner_j = 0 
+{txt}
+{com}.         * Morocco is exporter 
+.         replace partner_j =2 if reporter == "Morocco" & partnercode != 0 
+{txt}(1,606 real changes made)
+
+{com}.         * Morocco is importer 
+.         replace partner_j =1 if partner == "Morocco" & partnercode !=  0 
+{txt}(273 real changes made)
+
+{com}. 
+. save trade2_agg1, replace 
+{txt}(note: file trade2_agg1.dta not found)
+file trade2_agg1.dta saved
+
+{com}. project, creates("trade2_agg1.dta") preserve
+{txt}project master > do-file creates: {res}"data_derived/merge/trade2_agg1.dta" filesig(2875477363:5513129){txt}
+
+{com}. 
+. *** Aggregation 2 : OCP products
+. 
+. list trade product if partner == "Belgium" & reporter == "Morocco" & year == 2017
+{txt}
+       {c TLC}{hline 10}{c -}{hline 9}{c TRC}
+       {c |} {res}   trade   product {txt}{c |}
+       {c LT}{hline 10}{c -}{hline 9}{c RT}
+42164. {c |} {res}21329719         1 {txt}{c |}
+43580. {c |} {res}77686846         3 {txt}{c |}
+44979. {c |} {res} 8801054         4 {txt}{c |}
+       {c BLC}{hline 10}{c -}{hline 9}{c BRC}
+
+{com}. replace product = 1 if product == 3 | product == 4
+{txt}(31,020 real changes made)
+
+{com}. sort partner year product reporter
+{txt}
+{com}. collapse (sum) quantity trade, by(year product partner partnercode partneriso reportercode reporteriso reporter)
+{txt}
+{com}. list trade if partner == "Belgium" & reporter == "Morocco" & year == 2017
+{txt}
+       {c TLC}{hline 11}{c TRC}
+       {c |} {res}    trade {txt}{c |}
+       {c LT}{hline 11}{c RT}
+28409. {c |} {res}107817619 {txt}{c |}
+       {c BLC}{hline 11}{c BRC}
+
+{com}.         gen partner_j = 0 
+{txt}
+{com}.         * Morocco is exporter 
+.         replace partner_j =2 if reporter == "Morocco" & partnercode != 0 
+{txt}(994 real changes made)
+
+{com}.         * Morocco is importer 
+.         replace partner_j =1 if partner == "Morocco" & partnercode !=  0 
+{txt}(200 real changes made)
+
+{com}. 
+. save trade2_agg2, replace
+{txt}(note: file trade2_agg2.dta not found)
+file trade2_agg2.dta saved
+
+{com}. project, creates("trade2_agg2.dta") preserve
+{txt}project master > do-file creates: {res}"data_derived/merge/trade2_agg2.dta" filesig(1420687463:3685265){txt}
+
+{com}. 
+. 
+. *--------------------------------End of do file------------------------------- 
+. 
+. 
+{txt}end of do-file
+      name:  {res}plog_2
+       {txt}log:  {res}/Users/macbookair/Desktop/OCP_NEER/Codes/comtrade.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 3 Dec 2020, 14:31:28
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
