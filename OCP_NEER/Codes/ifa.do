@@ -178,35 +178,35 @@ project, creates("IFA.dta") preserve
 * Aggregation level 1 : Fertilizers 
 list Production product if partner == "Belgium" & year == 2017
 * Multiply quantities by price 0f 2011
-replace Production = Production*184 if product == 4
-replace Exports = Exports*184 if product ==4
-replace Imports = Imports*184 if product ==4
-replace ApparentConsumption = ApparentConsumption*184 if product ==4
-replace Homedeliveries = Homedeliveries*184 if product ==4
+replace Production = Production*90000 if product == 4
+replace Exports = Exports*90000 if product ==4
+replace Imports = Imports*90000 if product ==4
+replace ApparentConsumption = ApparentConsumption*90000 if product ==4
+replace Homedeliveries = Homedeliveries*90000 if product ==4
 
-replace Production = Production*480 if product == 1
-replace Exports = Exports*480 if product ==1
-replace Imports = Imports*480 if product ==1
-replace ApparentConsumption = ApparentConsumption*480 if product ==1
-replace Homedeliveries = Homedeliveries*480 if product ==1
+replace Production = Production*480000 if product == 1
+replace Exports = Exports*480000 if product ==1
+replace Imports = Imports*480000 if product ==1
+replace ApparentConsumption = ApparentConsumption*480000 if product ==1
+replace Homedeliveries = Homedeliveries*480000 if product ==1
 
-replace Production = Production*600 if product == 2
-replace Exports = Exports*600 if product ==2
-replace Imports = Imports*600 if product ==2
-replace ApparentConsumption = ApparentConsumption*600 if product ==2
-replace Homedeliveries = Homedeliveries*600 if product ==2
+replace Production = Production*389000 if product == 2
+replace Exports = Exports*389000 if product ==2
+replace Imports = Imports*389000 if product ==2
+replace ApparentConsumption = ApparentConsumption*389000 if product ==2
+replace Homedeliveries = Homedeliveries*389000 if product ==2
 
-replace Production = Production*465 if product == 3
-replace Exports = Exports*465 if product ==3
-replace Imports = Imports*465 if product ==3
-replace ApparentConsumption = ApparentConsumption*465 if product ==3
-replace Homedeliveries = Homedeliveries*465 if product ==3
+replace Production = Production*500000 if product == 3
+replace Exports = Exports*500000 if product ==3
+replace Imports = Imports*500000 if product ==3
+replace ApparentConsumption = ApparentConsumption*500000 if product ==3
+replace Homedeliveries = Homedeliveries*500000 if product ==3
 
-replace Production = Production*460 if product == 5
-replace Exports = Exports*460 if product ==5
-replace Imports = Imports*460 if product ==5
-replace ApparentConsumption = ApparentConsumption*460 if product ==5
-replace Homedeliveries = Homedeliveries*460 if product ==5
+replace Production = Production*288000 if product == 5
+replace Exports = Exports*288000 if product ==5
+replace Imports = Imports*288000 if product ==5
+replace ApparentConsumption = ApparentConsumption*288000 if product ==5
+replace Homedeliveries = Homedeliveries*288000 if product ==5
 
 
 replace product = 1 if product == 5 | product == 2
