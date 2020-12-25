@@ -7,6 +7,7 @@ local dofile "`(dofile)'"
 
 cd "`pdir'/data_raw/Comtrade"
 * COMTRADE cleansing 
+
 local myfiles : dir . files "*.csv"
 foreach file of local myfiles { 
 cd "`pdir'/data_raw/Comtrade"

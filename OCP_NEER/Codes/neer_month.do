@@ -29,7 +29,7 @@ save month_`file', replace
 cd "`pdir'/data_derived/neer/month"
 use exchange_month , clear 
 cd "`pdir'/data_derived/neer"
-merge 1:m partner month using  month_`file' , gen(_merge_rate) force
+merge 1:1 partner month product using  month_`file' , gen(_merge_rate) force
 keep if _merge_rate == 3
 drop _merge_rate 
 
@@ -40,6 +40,18 @@ bysort group : gen neer = pdct[1]
 bysort group : replace neer = neer[_n-1] * pdct if _n > 1
 bysort group : replace neer = neer[_N]
 
+	* Change to base first month 
+	bysort  product  : gen base = neer if month == ym(2002,01)
+	levelsof product, local(P)
+	foreach p of local P {
+	levelsof base if product == `p' , local(F)
+	foreach f of local F {
+	replace base = `f' if base == . & product == `p'
+		}
+	}
+	replace neer = (neer/base)*100
+	drop base
+	sort group
 cd "`pdir'/data_derived/neer/month"
 save neer_month_`file', replace
 cd "`pdir'/data_derived/neer"
