@@ -220,7 +220,7 @@ cd "`pdir'/data_derived/weights/Agg2"
 clear 
 fs *.dta 
 append using `r(files)'
-cd "`pdir'/data_derived/neer"
+cd "`pdir'/data_derived/neer/index/geometric"
 * Keep only partners distinct value 
 sort t_p_group partner
 quietly by t_p_group partner: gen dup = cond(_N==1,0,_n)
@@ -239,6 +239,8 @@ tab q
 
 keep partner year double_weights simple_weights product  t_p_group
 save weights_agg2, replace 
-project, creates("weights_agg2.dta")
+project, creates("weights_agg2.dta") preserve
+cd "`pdir'/results"
+export excel using "weights.xlsx", firstrow(variables) sheet(`"weights_agg2"') sheetreplace 
 
 *--------------------------------End of do file------------------------------- 
